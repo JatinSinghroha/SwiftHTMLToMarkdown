@@ -133,7 +133,7 @@ public class BasicHTML: HTML {
         } else if node.nodeName() == "ul", node.childNodeSize() >= 1 {
             for child in node.getChildNodes() {
                 if child.nodeName() == "li" {
-                    markdown += "\n\t\t• "
+                    markdown += "\n  • "
                     try convertNode(child)
                 }
             }
@@ -143,7 +143,7 @@ public class BasicHTML: HTML {
 
             for (i, child) in listItems.enumerated() {
                 let number = i + 1
-                markdown += "\n\t\(number). "
+                markdown += "\n  \(number). "
                 try convertNode(child)
             }
             return
@@ -161,7 +161,7 @@ public class BasicHTML: HTML {
             let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? email
             let encodedAccId = accountId.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? accountId
 
-            markdown += "**[@\(displayName)](app://user?accountId=\(encodedAccId)&email=\(encodedEmail))**"
+            markdown += "**[\(displayName)](app://user?accountId=\(encodedAccId)&email=\(encodedEmail))**"
             return
         }
 
