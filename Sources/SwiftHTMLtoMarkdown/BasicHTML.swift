@@ -149,7 +149,8 @@ public class BasicHTML: HTML {
             return
         // --- USER TAG HANDLING ---
         } else if let element = node as? Element,
-          element.tagName() == "span",
+            let tag = try? element.tagName(),
+          tag == "span",
           let classes = try? element.classNames(),
           classes.contains("user-tag") {
 
