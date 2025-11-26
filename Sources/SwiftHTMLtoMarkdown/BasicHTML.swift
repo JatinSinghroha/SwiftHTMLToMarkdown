@@ -147,16 +147,18 @@ public class BasicHTML: HTML {
                 try convertNode(child)
             }
             return
-        } else if node.nodeName() == "span",
-            node.hasAttr("class"),
-            node.getAttr("class") == "user-tag" {
+        } else if let element = node as? Element,
+              element.tagName() == "span",
+              element.classNames().contains("user-tag") {
 
-            let email = node.getAttr("data-email") ?? ""
-            let accountId = node.getAttr("data-accountid") ?? ""
-            let displayName = node.ownText().trimmingCharacters(in: .whitespacesAndNewlines)
+            let email = try element.attr("data-email")
+            let accountId = try element.attr("data-accountid")
+            let displayName = try element.text().trimmingCharacters(in: .whitespacesAndNewlines)
 
-            // Markdown link + bold
-            markdown += "**[@\(displayName)](app://user?accountId=\(accountId)&email=\(email))**"
+            let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? email
+            let encodedAccId = accountId.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? accountId
+
+            markdown += "**[\(displayName)](app://user?accountId=\(encodedAccId)&email=\(encodedEmail))**"
             return
         }
 
