@@ -147,6 +147,17 @@ public class BasicHTML: HTML {
                 try convertNode(child)
             }
             return
+        } else if node.nodeName() == "span",
+            node.hasAttr("class"),
+            node.getAttr("class") == "user-tag" {
+
+            let email = node.getAttr("data-email") ?? ""
+            let accountId = node.getAttr("data-accountid") ?? ""
+            let displayName = node.ownText().trimmingCharacters(in: .whitespacesAndNewlines)
+
+            // Markdown link + bold
+            markdown += "**[@\(displayName)](app://user?accountId=\(accountId)&email=\(email))**"
+            return
         }
 
         if node.nodeName() == "#text" && node.description != " " {
