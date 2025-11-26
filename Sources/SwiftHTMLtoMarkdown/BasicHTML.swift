@@ -147,20 +147,23 @@ public class BasicHTML: HTML {
                 try convertNode(child)
             }
             return
+        // --- USER TAG HANDLING ---
         } else if let element = node as? Element,
-              element.tagName() == "span",
-              element.classNames().contains("user-tag") {
+          element.tagName() == "span",
+          let classes = try? element.classNames(),
+          classes.contains("user-tag") {
 
-            let email = try element.attr("data-email")
-            let accountId = try element.attr("data-accountid")
-            let displayName = try element.text().trimmingCharacters(in: .whitespacesAndNewlines)
+            let email = (try? element.attr("data-email")) ?? ""
+            let accountId = (try? element.attr("data-accountid")) ?? ""
+            let displayName = (try? element.text())?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
             let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? email
             let encodedAccId = accountId.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? accountId
 
-            markdown += "**[\(displayName)](app://user?accountId=\(encodedAccId)&email=\(encodedEmail))**"
+            markdown += "**[@\(displayName)](app://user?accountId=\(encodedAccId)&email=\(encodedEmail))**"
             return
         }
+
 
         if node.nodeName() == "#text" && node.description != " " {
             markdown += node.description
