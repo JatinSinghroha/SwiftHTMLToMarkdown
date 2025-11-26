@@ -133,7 +133,7 @@ public class BasicHTML: HTML {
         } else if node.nodeName() == "ul", node.childNodeSize() >= 1 {
             for child in node.getChildNodes() {
                 if child.nodeName() == "li" {
-                    markdown += "\n\t• "
+                    markdown += "\n\t\t• "
                     try convertNode(child)
                 }
             }
@@ -143,7 +143,7 @@ public class BasicHTML: HTML {
 
             for (i, child) in listItems.enumerated() {
                 let number = i + 1
-                markdown += "\n\(number). "
+                markdown += "\n\t\(number). "
                 try convertNode(child)
             }
             return
