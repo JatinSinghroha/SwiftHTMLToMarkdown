@@ -59,19 +59,35 @@ public class BasicHTML: HTML {
             let href = try node.attr("href")
             markdown += "(\(href))"
             return
-        } else if node.nodeName() == "strong" {
+        } else if node.nodeName() == "strong" || node.nodeName() == "b" {
             markdown += "**"
             for child in node.getChildNodes() {
                 try convertNode(child)
             }
             markdown += "**"
             return
-        } else if node.nodeName() == "em" {
+        } else if node.nodeName() == "em" || node.nodeName() == "i" {
+            // Italic
             markdown += "*"
             for child in node.getChildNodes() {
                 try convertNode(child)
             }
             markdown += "*"
+            return
+        } else if node.nodeName() == "u" {
+            markdown += "<u>"
+            for child in node.getChildNodes() {
+                try convertNode(child)
+            }
+            markdown += "</u>"
+            return
+        } else if node.nodeName() == "s" || node.nodeName() == "strike" || node.nodeName() == "del" {
+            // Strikethrough
+            markdown += "~~"
+            for child in node.getChildNodes() {
+                try convertNode(child)
+            }
+            markdown += "~~"
             return
         } else if node.nodeName() == "code" {
             markdown += "`"
