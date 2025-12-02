@@ -75,11 +75,11 @@ public class BasicHTML: HTML {
             markdown += "*"
             return
         } else if node.nodeName() == "u" {
-            markdown += "<u>"
+            markdown += "<ins>"
             for child in node.getChildNodes() {
                 try convertNode(child)
             }
-            markdown += "</u>"
+            markdown += "</ins>"
             return
         } else if node.nodeName() == "s" || node.nodeName() == "strike" || node.nodeName() == "del" {
             // Strikethrough
